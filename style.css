@@ -236,7 +236,6 @@ main {
     overflow: hidden;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
     z-index: 10;
-    /* Ensure above dog */
 }
 
 .choice-btn .artist-name {
@@ -432,31 +431,6 @@ footer {
     opacity: 0;
     pointer-events: none;
 }
-
-/* Dog Overlay */
-/* .dog-overlay {
-    position: fixed;
-    bottom: 22%;
-    left: 15%;
-    transform: translateX(-50%) translateY(100%);
-    z-index: 5;
-    pointer-events: none;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.dog-overlay.show {
-    transform: translateX(-50%) translateY(0);
-}
-
-.dog-overlay img {
-    width: 180px;
-    height: auto;
-    image-rendering: pixelated;
-}
-
-.dog-overlay.hidden {
-    display: none;
-} */
 
 /* Prize Container */
 .prize-container {
