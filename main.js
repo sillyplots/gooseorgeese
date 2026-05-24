@@ -17,10 +17,10 @@ const scoreEl = document.getElementById('score');
 const streakEl = document.getElementById('streak');
 const choiceBtns = document.querySelectorAll('.choice-btn');
 const app = document.getElementById('app');
-// const dogOverlay = document.getElementById('dog-overlay');
-// const dogImg = document.getElementById('dog-img');
 const prizeContainer = document.getElementById('prize-container');
 const gameContainer = document.querySelector('.game-container');
+const gooseBtn = document.querySelector('.goose');
+const geeseBtn = document.querySelector('.geese');
 
 // Initialize YouTube API
 const tag = document.createElement('script');
@@ -164,12 +164,9 @@ function handleGuess(artist) {
         triggerConfetti();
 
         // Add bounce animation to the correct button
-        const btn = artist === 'Goose' ? document.querySelector('.goose') : document.querySelector('.geese');
+        const btn = artist === 'Goose' ? gooseBtn : geeseBtn;
         btn.classList.add('bounce');
         setTimeout(() => btn.classList.remove('bounce'), 1000);
-
-        // Show Dog Animation
-        // showDog(artist);
 
         // Delay next song to allow animation to play
         setTimeout(() => {
@@ -217,29 +214,6 @@ function handleGuess(artist) {
 
     stopPlaying();
 }
-
-// function showDog(artist) {
-//     // Select image based on artist
-//     if (artist === 'Goose') {
-//         dogImg.src = './assets/dog_one.png';
-//     } else {
-//         dogImg.src = './assets/dog_two.png';
-//     }
-
-//     // Show overlay
-//     dogOverlay.classList.remove('hidden');
-//     // Trigger reflow
-//     void dogOverlay.offsetWidth;
-//     dogOverlay.classList.add('show');
-
-//     // Hide after animation
-//     setTimeout(() => {
-//         dogOverlay.classList.remove('show');
-//         setTimeout(() => {
-//             dogOverlay.classList.add('hidden');
-//         }, 500); // Wait for transition down
-//     }, 2500);
-// }
 
 function updateUI() {
     if (state.isPlaying) {
