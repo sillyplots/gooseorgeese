@@ -21,6 +21,8 @@ const app = document.getElementById('app');
 // const dogImg = document.getElementById('dog-img');
 const prizeContainer = document.getElementById('prize-container');
 const gameContainer = document.querySelector('.game-container');
+const gooseBtn = document.querySelector('.goose');
+const geeseBtn = document.querySelector('.geese');
 
 // Initialize YouTube API
 const tag = document.createElement('script');
@@ -164,7 +166,7 @@ function handleGuess(artist) {
         triggerConfetti();
 
         // Add bounce animation to the correct button
-        const btn = artist === 'Goose' ? document.querySelector('.goose') : document.querySelector('.geese');
+        const btn = artist === 'Goose' ? gooseBtn : geeseBtn;
         btn.classList.add('bounce');
         setTimeout(() => btn.classList.remove('bounce'), 1000);
 
