@@ -40,7 +40,7 @@ def get_video_details(video_ids, api_key):
     url = f"https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id={ids_str}&key={api_key}"
     
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=10) as response:
             data = response.read().decode('utf-8')
             parsed = json.loads(data)
             
@@ -62,7 +62,7 @@ def search_youtube_page(query, api_key, channel_id=None, page_token=None):
         url += f"&pageToken={page_token}"
     
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=10) as response:
             data = response.read().decode('utf-8')
             return json.loads(data)
     except Exception as e:
