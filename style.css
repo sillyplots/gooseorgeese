@@ -433,31 +433,6 @@ footer {
     pointer-events: none;
 }
 
-/* Dog Overlay */
-/* .dog-overlay {
-    position: fixed;
-    bottom: 22%;
-    left: 15%;
-    transform: translateX(-50%) translateY(100%);
-    z-index: 5;
-    pointer-events: none;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.dog-overlay.show {
-    transform: translateX(-50%) translateY(0);
-}
-
-.dog-overlay img {
-    width: 180px;
-    height: auto;
-    image-rendering: pixelated;
-}
-
-.dog-overlay.hidden {
-    display: none;
-} */
-
 /* Prize Container */
 .prize-container {
     width: 100%;

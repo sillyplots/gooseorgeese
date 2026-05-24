@@ -17,8 +17,6 @@ const scoreEl = document.getElementById('score');
 const streakEl = document.getElementById('streak');
 const choiceBtns = document.querySelectorAll('.choice-btn');
 const app = document.getElementById('app');
-// const dogOverlay = document.getElementById('dog-overlay');
-// const dogImg = document.getElementById('dog-img');
 const prizeContainer = document.getElementById('prize-container');
 const gameContainer = document.querySelector('.game-container');
 
