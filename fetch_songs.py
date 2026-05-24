@@ -69,6 +69,32 @@ def search_youtube_page(query, api_key, channel_id=None, page_token=None):
         print(f"Error searching YouTube: {e}")
         return {}
 
+def is_valid_video(item, band_name):
+    """Checks if a video item passes filtering criteria for a specific band."""
+    title = item['snippet']['title'].lower()
+    other_band = 'geese' if band_name.lower() == 'goose' else 'goose'
+
+    # Stricter filtering for "official" feel, but allow some live if high quality
+    excluded_keywords = [
+        'interview', 'review', 'reaction', 'podcast', 'band or sham',
+        'geesefest', 'episode', 'out now', 'out next week', 'is out'
+    ]
+    if any(keyword in title for keyword in excluded_keywords):
+        return False
+
+    if any(keyword in title for keyword in ['teaser', 'trailer', 'full album']):
+        return False
+
+    # Skip random covers by others
+    if 'cover' in title and band_name.lower() not in title:
+        return False
+
+    # Avoid cross-contamination
+    if other_band in title:
+        return False
+
+    return True
+
 def main():
     all_songs = []
     
@@ -87,24 +113,7 @@ def main():
                     break
                 
                 # Filter out obvious live versions, interviews, and wrong band
-                filtered_items = []
-                other_band = 'Geese' if band['name'] == 'Goose' else 'Goose'
-                
-                for item in items:
-                    title = item['snippet']['title'].lower()
-                    # Stricter filtering for "official" feel, but allow some live if high quality
-                    if ('interview' in title or 'review' in title or 'reaction' in title or 
-                        'podcast' in title or 'band or sham' in title or 'geesefest' in title or
-                        'episode' in title or 'out now' in title or 'out next week' in title or 'is out' in title):
-                        continue
-                    if 'teaser' in title or 'trailer' in title or 'full album' in title:
-                        continue
-                    if 'cover' in title and band['name'] not in item['snippet']['title']: # Skip random covers by others
-                        continue
-                    if other_band.lower() in title: # Avoid cross-contamination
-                        continue
-                        
-                    filtered_items.append(item)
+                filtered_items = [item for item in items if is_valid_video(item, band['name'])]
                 
                 if not filtered_items:
                     if not next_page_token:
