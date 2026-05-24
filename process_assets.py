@@ -23,13 +23,13 @@ def remove_green_background(input_path, output_path):
         print(f"Error processing {input_path}: {e}")
 
 # Paths
-base_path = "/Users/charliethompson/.gemini/antigravity/brain/3b99eb67-5ffe-4d25-b6c8-0a8ab33c2b84"
-assets_path = "/Users/charliethompson/.gemini/antigravity/scratch/goose-or-geese/assets"
+base_path = os.path.dirname(os.path.abspath(__file__))
+assets_path = os.path.join(base_path, "assets")
 
 # Ensure assets directory exists
 if not os.path.exists(assets_path):
     os.makedirs(assets_path)
 
 # Process images
-remove_green_background(f"{base_path}/dog_one_green_1763943893241.png", f"{assets_path}/dog_one.png")
-remove_green_background(f"{base_path}/dog_two_green_1763943905733.png", f"{assets_path}/dog_two.png")
+remove_green_background(os.path.join(base_path, "dog_one_green_1763943893241.png"), os.path.join(assets_path, "dog_one.png"))
+remove_green_background(os.path.join(base_path, "dog_two_green_1763943905733.png"), os.path.join(assets_path, "dog_two.png"))
