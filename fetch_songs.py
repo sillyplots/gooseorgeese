@@ -40,10 +40,15 @@ def get_video_details(video_ids, api_key):
         return {}
         
     ids_str = ",".join(video_ids)
-    url = f"https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id={ids_str}&key={api_key}"
+    params = urllib.parse.urlencode({
+        'part': 'contentDetails',
+        'id': ids_str,
+        'key': api_key
+    })
+    url = f"https://www.googleapis.com/youtube/v3/videos?{params}"
     
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=10) as response:
             data = response.read().decode('utf-8')
             parsed = json.loads(data)
             
@@ -57,20 +62,54 @@ def get_video_details(video_ids, api_key):
         return {}
 
 def search_youtube_page(query, api_key, channel_id=None, page_token=None):
-    encoded_query = urllib.parse.quote(query)
-    url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={encoded_query}&type=video&maxResults=50&key={api_key}"
+    query_params = {
+        'part': 'snippet',
+        'q': query,
+        'type': 'video',
+        'maxResults': '50',
+        'key': api_key
+    }
     if channel_id:
-        url += f"&channelId={channel_id}"
+        query_params['channelId'] = channel_id
     if page_token:
-        url += f"&pageToken={page_token}"
+        query_params['pageToken'] = page_token
+
+    encoded_params = urllib.parse.urlencode(query_params)
+    url = f"https://www.googleapis.com/youtube/v3/search?{encoded_params}"
     
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=10) as response:
             data = response.read().decode('utf-8')
             return json.loads(data)
     except Exception as e:
         print(f"Error searching YouTube: {e}")
         return {}
+
+def is_valid_video(item, band_name):
+    """Checks if a video item passes filtering criteria for a specific band."""
+    title = item['snippet']['title'].lower()
+    other_band = 'geese' if band_name.lower() == 'goose' else 'goose'
+
+    # Stricter filtering for "official" feel, but allow some live if high quality
+    excluded_keywords = [
+        'interview', 'review', 'reaction', 'podcast', 'band or sham',
+        'geesefest', 'episode', 'out now', 'out next week', 'is out'
+    ]
+    if any(keyword in title for keyword in excluded_keywords):
+        return False
+
+    if any(keyword in title for keyword in ['teaser', 'trailer', 'full album']):
+        return False
+
+    # Skip random covers by others
+    if 'cover' in title and band_name.lower() not in title:
+        return False
+
+    # Avoid cross-contamination
+    if other_band in title:
+        return False
+
+    return True
 
 def main():
     all_songs = []
@@ -90,24 +129,7 @@ def main():
                     break
                 
                 # Filter out obvious live versions, interviews, and wrong band
-                filtered_items = []
-                other_band = 'Geese' if band['name'] == 'Goose' else 'Goose'
-                
-                for item in items:
-                    title = item['snippet']['title'].lower()
-                    # Stricter filtering for "official" feel, but allow some live if high quality
-                    if ('interview' in title or 'review' in title or 'reaction' in title or 
-                        'podcast' in title or 'band or sham' in title or 'geesefest' in title or
-                        'episode' in title or 'out now' in title or 'out next week' in title or 'is out' in title):
-                        continue
-                    if 'teaser' in title or 'trailer' in title or 'full album' in title:
-                        continue
-                    if 'cover' in title and band['name'] not in item['snippet']['title']: # Skip random covers by others
-                        continue
-                    if other_band.lower() in title: # Avoid cross-contamination
-                        continue
-                        
-                    filtered_items.append(item)
+                filtered_items = [item for item in items if is_valid_video(item, band['name'])]
                 
                 if not filtered_items:
                     if not next_page_token:
