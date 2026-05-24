@@ -37,7 +37,12 @@ def get_video_details(video_ids, api_key):
         return {}
         
     ids_str = ",".join(video_ids)
-    url = f"https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id={ids_str}&key={api_key}"
+    params = urllib.parse.urlencode({
+        'part': 'contentDetails',
+        'id': ids_str,
+        'key': api_key
+    })
+    url = f"https://www.googleapis.com/youtube/v3/videos?{params}"
     
     try:
         with urllib.request.urlopen(url) as response:
@@ -54,12 +59,20 @@ def get_video_details(video_ids, api_key):
         return {}
 
 def search_youtube_page(query, api_key, channel_id=None, page_token=None):
-    encoded_query = urllib.parse.quote(query)
-    url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={encoded_query}&type=video&maxResults=50&key={api_key}"
+    query_params = {
+        'part': 'snippet',
+        'q': query,
+        'type': 'video',
+        'maxResults': '50',
+        'key': api_key
+    }
     if channel_id:
-        url += f"&channelId={channel_id}"
+        query_params['channelId'] = channel_id
     if page_token:
-        url += f"&pageToken={page_token}"
+        query_params['pageToken'] = page_token
+
+    encoded_params = urllib.parse.urlencode(query_params)
+    url = f"https://www.googleapis.com/youtube/v3/search?{encoded_params}"
     
     try:
         with urllib.request.urlopen(url) as response:
