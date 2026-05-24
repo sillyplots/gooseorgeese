@@ -168,9 +168,6 @@ function handleGuess(artist) {
         btn.classList.add('bounce');
         setTimeout(() => btn.classList.remove('bounce'), 1000);
 
-        // Show Dog Animation
-        // showDog(artist);
-
         // Delay next song to allow animation to play
         setTimeout(() => {
             if (state.streak === 3) {
@@ -217,29 +214,6 @@ function handleGuess(artist) {
 
     stopPlaying();
 }
-
-// function showDog(artist) {
-//     // Select image based on artist
-//     if (artist === 'Goose') {
-//         dogImg.src = './assets/dog_one.png';
-//     } else {
-//         dogImg.src = './assets/dog_two.png';
-//     }
-
-//     // Show overlay
-//     dogOverlay.classList.remove('hidden');
-//     // Trigger reflow
-//     void dogOverlay.offsetWidth;
-//     dogOverlay.classList.add('show');
-
-//     // Hide after animation
-//     setTimeout(() => {
-//         dogOverlay.classList.remove('show');
-//         setTimeout(() => {
-//             dogOverlay.classList.add('hidden');
-//         }, 500); // Wait for transition down
-//     }, 2500);
-// }
 
 function updateUI() {
     if (state.isPlaying) {
