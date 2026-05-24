@@ -257,7 +257,7 @@ function triggerConfetti() {
     console.log("Confetti!");
 }
 
-function cleanTitle(title) {
+export function cleanTitle(title) {
     let cleaned = title
         // Decode HTML entities
         .replace(/&quot;/g, '"')

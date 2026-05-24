@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A deadpan web application to test your ability to distinguish between the bands Goose and Geese.",
+  "main": "main.js",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sillyplots/gooseorgeese.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/sillyplots/gooseorgeese/issues"
+  },
+  "homepage": "https://github.com/sillyplots/gooseorgeese#readme",
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.7"
+  }
+}
