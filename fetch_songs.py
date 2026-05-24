@@ -21,6 +21,9 @@ MAX_RESULTS = 50 # Fetch more to allow for filtering
 
 def parse_duration(duration_str):
     """Parses ISO 8601 duration (e.g., PT4M13S) into seconds."""
+    if not isinstance(duration_str, str):
+        return 0
+
     match = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', duration_str)
     if not match:
         return 0
