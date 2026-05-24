@@ -20,6 +20,7 @@ const app = document.getElementById('app');
 // const dogOverlay = document.getElementById('dog-overlay');
 // const dogImg = document.getElementById('dog-img');
 const prizeContainer = document.getElementById('prize-container');
+const gameContainer = document.querySelector('.game-container');
 
 // Initialize YouTube API
 const tag = document.createElement('script');
@@ -200,9 +201,8 @@ function handleGuess(artist) {
         statusMsg.style.color = "var(--goose-color)";
 
         // Add shake animation to the game container
-        const container = document.querySelector('.game-container');
-        container.classList.add('shake');
-        setTimeout(() => container.classList.remove('shake'), 500);
+        gameContainer.classList.add('shake');
+        setTimeout(() => gameContainer.classList.remove('shake'), 500);
 
         // Load next song after a delay (shorter for wrong answer)
         setTimeout(() => {
