@@ -23,8 +23,8 @@ def remove_green_background(input_path, output_path):
         print(f"Error processing {input_path}: {e}")
 
 # Paths
-base_path = "/Users/charliethompson/.gemini/antigravity/brain/3b99eb67-5ffe-4d25-b6c8-0a8ab33c2b84"
-assets_path = "/Users/charliethompson/.gemini/antigravity/scratch/goose-or-geese/assets"
+base_path = "."
+assets_path = "assets"
 
 # Ensure assets directory exists
 if not os.path.exists(assets_path):
