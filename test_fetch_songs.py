@@ -43,6 +43,7 @@ def test_parse_duration_malformed_strings():
     assert parse_duration("PT10X") == 0
     assert parse_duration("P1D") == 0
     assert parse_duration("PT-5S") == 0
+
 def test_is_valid_video_valid():
     """Test that a valid official video passes."""
     item = {'snippet': {'title': 'Goose - Hungersite (Official Video)'}}
