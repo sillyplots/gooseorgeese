@@ -33,6 +33,17 @@ def test_parse_duration_invalid_strings():
     assert parse_duration("pt4m13s") == 0
     assert parse_duration("1H2M3S") == 0 # missing PT prefix
 
+def test_parse_duration_type_errors():
+    """Test inputs of incorrect types, like None or integers."""
+    assert parse_duration(None) == 0
+    assert parse_duration(123) == 0
+
+def test_parse_duration_malformed_strings():
+    """Test duration strings that are malformed or have unexpected components."""
+    assert parse_duration("PT10X") == 0
+    assert parse_duration("P1D") == 0
+    assert parse_duration("PT-5S") == 0
+
 def test_is_valid_video_valid():
     """Test that a valid official video passes."""
     item = {'snippet': {'title': 'Goose - Hungersite (Official Video)'}}
