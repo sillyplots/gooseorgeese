@@ -1,5 +1,7 @@
 import pytest
-from fetch_songs import parse_duration
+from fetch_songs import parse_duration, search_youtube_page
+from unittest.mock import patch, MagicMock
+import urllib.error
 
 def test_parse_duration_full():
     """Test full ISO 8601 duration string with hours, minutes, and seconds."""
@@ -32,3 +34,25 @@ def test_parse_duration_invalid_strings():
     # Function is currently case-sensitive so this should fail to match and return 0
     assert parse_duration("pt4m13s") == 0
     assert parse_duration("1H2M3S") == 0 # missing PT prefix
+
+@patch('fetch_songs.urllib.request.urlopen')
+def test_search_youtube_page_success(mock_urlopen):
+    """Test successful youtube search page fetch."""
+    mock_response = MagicMock()
+    mock_response.read.return_value = b'{"items": [{"id": "123"}]}'
+    mock_urlopen.return_value.__enter__.return_value = mock_response
+
+    result = search_youtube_page("test query", "fake_api_key")
+
+    assert result == {"items": [{"id": "123"}]}
+    mock_urlopen.assert_called_once()
+
+@patch('fetch_songs.urllib.request.urlopen')
+def test_search_youtube_page_error(mock_urlopen):
+    """Test error handling in youtube search page fetch."""
+    mock_urlopen.side_effect = urllib.error.URLError("Network error")
+
+    result = search_youtube_page("test query", "fake_api_key")
+
+    assert result == {}
+    mock_urlopen.assert_called_once()
