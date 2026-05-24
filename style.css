@@ -157,13 +157,6 @@ main {
 
 .visualizer-ring {
     display: none;
-    /* position: absolute;
-    border-radius: 0;
-    border: 4px solid var(--accent-color);
-    width: 100%;
-    height: 100%;
-    animation: pulse 2s infinite steps(4);
-    opacity: 0; */
 }
 
 .visualizer-ring:nth-child(1) {
